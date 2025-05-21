@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Countdown</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(145deg, #fddde6, #ffe0f7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .countdown-container {
+      background: white;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #e91e63;
+      font-size: 26px;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .count-box {
+      background: #ffe5f1;
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+
+    .count-box span {
+      display: block;
+      font-size: 24px;
+      color: #d81b60;
+      font-weight: bold;
+    }
+
+    .count-box label {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .message {
+      font-size: 16px;
+      color: #b4004e;
+    }
+  </style>
+</head>
+<body>
+  <div class="countdown-container">
+    <h1>Your Special Day is Almost Here💕</h1>
+    <div class="countdown">
+      <div class="count-box">
+        <span id="days">0</span>
+        <label>Days</label>
+      </div>
+      <div class="count-box">
+        <span id="hours">0</span>
+        <label>Hours</label>
+      </div>
+      <div class="count-box">
+        <span id="minutes">0</span>
+        <label>Minutes</label>
+      </div>
+      <div class="count-box">
+        <span id="seconds">0</span>
+        <label>Seconds</label>
+      </div>
+    </div>
+    <p class="message">Just a little more... A small gift for my favorite person❤️</p>
+  </div>
+
+  <audio id="bg-music" autoplay loop style="display: none;">
+    <source src="./library/Christina-Perri-A-Thousand-Years.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Set target time to today at 11 PM
+
+
+    const targetTime = new Date();
+    targetTime.setHours(23, 0, 0, 0); // 11:00 PM today
+
+
+// const targetTime = new Date(Date.now() + 10000); // 10 seconds from now
+
+
+
+    const now = new Date();
+    if (now > targetTime) {
+      targetTime.setDate(targetTime.getDate() + 1); // next day if 11PM is already passed
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+      const distance = targetTime - now;
+
+      if (distance <= 0) {
+        window.location.href = "password.html"; // redirect to password page
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours;
+      document.getElementById("minutes").innerText = minutes;
+      document.getElementById("seconds").innerText = seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Auto play music on click (browser restriction bypass)
+    window.addEventListener('click', () => {
+      document.getElementById('bg-music').play().catch(() => {});
+    }, { once: true });
+  </script>
+</body>
+</html>
